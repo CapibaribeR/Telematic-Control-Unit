@@ -13,15 +13,6 @@
 #include <CAN.h>
 #include <GeneralCAN.h>
 
-// DEBUG MODE
-#define DEBUG
-
-#ifdef DEBUG
-    #define DEBUG_PRINT(...) printf(__VA_ARGS__)
-#else
-    #define DEBUG_PRINT(...)
-#endif
-
 /*===================================== COMMUNICATION PORTS (STM32 F746ZG) =====================================*/
 #define TX_GPIO_NUM   4         // Connects to CTX
 #define RX_GPIO_NUM   0         // Connects to CRX
@@ -66,6 +57,7 @@ void read(int packetSize){
     switch (CAN.packetId()){
         case VCU_MOTOR_ID:
             Motor = store_VCU_MSG(msg);
+            Print_Datafield(Motor);
             break;
         
         case VCU_GYRO_ID:
