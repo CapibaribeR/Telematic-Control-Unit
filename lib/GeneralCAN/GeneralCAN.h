@@ -1,13 +1,12 @@
 #include <Arduino.h>
 
-#define VCU_MOTOR_ID 1
-#define VCU_GYRO_ID 2
-#define BMS_ID 3
-#define TCU_ID 4
-
-uint8_t VCU_Msg[8];
+#define VCU_MOTOR_ID    1       //
+#define VCU_GYRO_ID     2       //
+#define BMS_ID          3       //
+#define TCU_ID          4       //
 
 
+/* Struct that contains VCU Datafield */
 struct MotorData{
     float Supply_Voltage{0};        // Supply Voltage (V)
     uint8_t Temp_M1{0};             // Temperature, Motor 1 (°C)
@@ -17,16 +16,14 @@ struct MotorData{
     uint16_t RPM_M1{0};             // Velocity, Motor 1 (RPM)
 };
 
-void get() {
-    MotorData Motor;
+/* Struct that contains BMS Datafield */
+struct BMSData{
 
-    Motor.Supply_Voltage = (VCU_Msg[1]<< 8) | VCU_Msg[9];
-    Motor.Temp_M1    = VCU_Msg[2]-100;
-    Motor.Temp_M2    = VCU_Msg[3]-100;
-    Motor.Current_M1 = VCU_Msg[4];
-    Motor.Current_M2 = VCU_Msg[5];
-    Motor.RPM_M1     = (VCU_Msg[7]<< 8) | VCU_Msg[6];
-    
+};
+
+
+void get() {
+  
     int id;
     switch (id){
         case VCU_MOTOR_ID:
@@ -40,5 +37,20 @@ void get() {
 
             break;
     }
-
 }
+
+
+MotorData store_VCU_MSG(uint8_t VCU_Msg[8]){
+    MotorData Motor;
+    Motor.Supply_Voltage    = (VCU_Msg[1]<< 8) | VCU_Msg[9];
+    Motor.Temp_M1           = VCU_Msg[2]-100;
+    Motor.Temp_M2           = VCU_Msg[3]-100;
+    Motor.Current_M1        = VCU_Msg[4];
+    Motor.Current_M2        = VCU_Msg[5];
+    Motor.RPM_M1            = (VCU_Msg[7]<< 8) | VCU_Msg[6];
+
+    return Motor;
+}
+
+
+
