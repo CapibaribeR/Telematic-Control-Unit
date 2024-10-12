@@ -22,7 +22,7 @@
 
 uint8_t VCU_Msg[8];
 MotorData Motor;
-void read();
+void read(int packetSize);
 
 /*====================================== INITIALIZATION ======================================*/
 void setup() {
